@@ -1,1 +1,1 @@
-require "jekyll/polyglot"
+require 'jekyll/polyglot'
