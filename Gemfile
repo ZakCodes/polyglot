@@ -8,6 +8,8 @@ group :test do
   gem 'rspec'
   gem 'rspec-mocks'
   gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
 end
 
 gem 'github-pages'

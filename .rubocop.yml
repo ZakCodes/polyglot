@@ -1,3 +1,7 @@
+require:
+  - rubocop-rails
+  - rubocop-performance
+
 # Common configuration.
 
 AllCops:
@@ -616,11 +620,10 @@ Layout/FirstMethodParameterLineBreak:
   Enabled: false
   VersionAdded: '0.49'
 
-Layout/FirstParameterIndentation:
+Layout/IndentFirstArgument:
   Description: 'Checks the indentation of the first parameter in a method call.'
   Enabled: true
   VersionAdded: '0.49'
-  VersionChanged: '0.56'
   EnforcedStyle: special_for_inner_method_call_in_parentheses
   SupportedStyles:
     # The first parameter should always be indented one step more than the
@@ -641,7 +644,7 @@ Layout/FirstParameterIndentation:
   # But it can be overridden by setting this parameter
   IndentationWidth: ~
 
-Layout/IndentArray:
+Layout/IndentFirstArrayElement:
   Description: >-
                  Checks the indentation of the first element in an array
                  literal.
@@ -677,7 +680,7 @@ Layout/IndentAssignment:
   # But it can be overridden by setting this parameter
   IndentationWidth: ~
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   Description: 'Checks the indentation of the first key in a hash literal.'
   Enabled: true
   VersionAdded: '0.49'
@@ -706,9 +709,8 @@ Layout/IndentHeredoc:
   StyleGuide: '#squiggly-heredocs'
   Enabled: true
   VersionAdded: '0.49'
-  EnforcedStyle: auto_detection
+  EnforcedStyle: squiggly
   SupportedStyles:
-    - auto_detection
     - squiggly
     - active_support
     - powerpack
@@ -1522,12 +1524,6 @@ Lint/StringConversionInInterpolation:
   VersionAdded: '0.19'
   VersionChanged: '0.20'
 
-Lint/Syntax:
-  Description: 'Checks syntax error'
-  Enabled: true
-  VersionAdded: '0.9'
-
-
 Lint/ToJSON:
   Description: 'Ensure #to_json includes an optional argument.'
   Enabled: true
@@ -2088,11 +2084,6 @@ Performance/InefficientHashSearch:
   VersionAdded: '0.56'
   Safe: false
 
-Performance/LstripRstrip:
-  Description: 'Use `strip` instead of `lstrip.rstrip`.'
-  Enabled: true
-  VersionAdded: '0.36'
-
 Performance/OpenStruct:
   Description: 'Use `Struct` instead of `OpenStruct`.'
   Enabled: false
@@ -2127,7 +2118,7 @@ Performance/RedundantMerge:
   # Max number of key-value pairs to consider an offense
   MaxKeyValuePairs: 2
 
-Performance/RedundantSortBy:
+Style/RedundantSortBy:
   Description: 'Use `sort` instead of `sort_by { |x| x }`.'
   Enabled: true
   VersionAdded: '0.36'
@@ -2146,7 +2137,7 @@ Performance/ReverseEach:
   Enabled: true
   VersionAdded: '0.30'
 
-Performance/Sample:
+Style/Sample:
   Description: >-
                   Use `sample` instead of `shuffle.first`,
                   `shuffle.last`, and `shuffle[Integer]`.
@@ -2196,7 +2187,7 @@ Performance/UnfreezeString:
   Enabled: true
   VersionAdded: '0.50'
 
-Performance/UnneededSort:
+Style/UnneededSort:
   Description: >-
                   Use `min` instead of `sort.first`,
                   `max_by` instead of `sort_by...last`, etc.
@@ -3253,7 +3244,7 @@ Style/FrozenStringLiteralComment:
   Enabled: true
   VersionAdded: '0.36'
   VersionChanged: '0.47'
-  EnforcedStyle: when_needed
+  EnforcedStyle: never
   SupportedStyles:
     # `when_needed` will add the frozen string literal comment to files
     # only when the `TargetRubyVersion` is set to 2.3+.
