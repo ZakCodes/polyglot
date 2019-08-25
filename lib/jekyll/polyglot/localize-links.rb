@@ -28,6 +28,7 @@ module Polyglot
   def self.should_localize?(uri, site)
     (uri.hostname.nil? || uri.hostname == site.config) &&
       ACCEPTED_SCHEMES.include?(uri.scheme) &&
+      Config.languages.none? {|lang| uri.path.start_with?("/#{lang}") } &&
       Config.exclude_from_localization.none? do |pattern|
         File.fnmatch(pattern, uri.path)
       end
