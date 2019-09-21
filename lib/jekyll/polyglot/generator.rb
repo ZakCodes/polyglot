@@ -1,4 +1,5 @@
 require_relative 'config'
+require_relative 'localize-payload'
 
 module Jekyll
   class Page
@@ -30,12 +31,14 @@ module Polyglot
       pages.each do |page|
         lang = page.data['lang'] ||
                Config.languages.find do |language|
-                 page.url.end_with?(".#{language}")
+                 page.url.end_with?(".#{language}/")
                end
 
         lang = Config.default_lang unless lang.is_a?(String)
 
-        page.url.chomp!(".#{lang}")
+        # Remove ".lang" from the end of the URL
+        page.url << '/' if page.url.chomp!(".#{lang}/")
+
         page.data['lang'] = lang
 
         if urls[page.url]
@@ -49,14 +52,26 @@ module Polyglot
         default_translation = translations[Config.default_lang]
         Config.languages.each do |lang|
           translation = translations[lang]
-          unless translation
+          if translation.nil?
             next unless default_translation
 
             translation = default_translation.clone
             translation.data = default_translation.data.clone
+          elsif default_translation && translation.data["inherit-fm"] != false
+            base = default_translation.data.clone
+
+            %w[tags categories].each do |key|
+              if translation.data[key].nil? || translation.data[key].empty?
+                translation.data[key] = base[key]
+              end
+            end
+
+            Polyglot.merge_recursive(base, translation.data)
+            translation.data = base
           end
+
           translation.data['lang'] = lang
-          translation.url = '/' + lang + url if lang != Config.default_lang
+          translation.url = "/#{lang}#{url}" if lang != Config.default_lang
           generated.push(translation)
         end
       end
